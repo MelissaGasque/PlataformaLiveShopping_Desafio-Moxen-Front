@@ -2,7 +2,6 @@
 
 import { useAuth } from "@/contexts/authContext"
 import { LoginData, LoginSchema } from "@/schemas/user.schema"
-import { api } from "@/services/api"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
 import { useForm } from "react-hook-form"
@@ -38,10 +37,6 @@ const LoginForm = () => {
                 className="user-form-input"
                 {...register("password")}
             />
-
-            {/* <Link href={"/resetPassword"} className="user-form-link">
-            Esqueceu a senha ? Clique aqui
-            </Link> */}
         </div>
         <div>
           <button type="submit" className="user-form-button">
