@@ -1,13 +1,16 @@
-import Link from "next/link";
+import { Header } from "@/components/header"
+import RegisterForm from "@/components/registerForm"
+import { NextPage } from "next"
 
-export default function Register() {
-    return (
-      <main className=" body min-h-screen text-purple-500 ">
-        <h1>Pagina Register</h1>
-        <p>Nessa página ficará os inputs e botão para registro</p>
-        <div>
-          <Link href={"/"}>Voltar</Link>
-        </div>
+const Register: NextPage = function () {
+  return (
+    <div className="body min-h-screen">
+      <Header/>
+      <main className="flex items-center justify-center ">
+        <RegisterForm />
       </main>
-    )
-  }
+    </div>
+  )
+}
+
+export default Register

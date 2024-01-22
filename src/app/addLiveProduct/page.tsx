@@ -6,7 +6,7 @@ export default function AddLiveProducts() {
       <main className=" body min-h-screen text-purple-500 ">
         <h1>Adicionar as  lives e produtos</h1>
         <div>
-          <Link href={"/userPage"}>Voltar</Link>
+          <Link href={"/userPage"} className="btn-primary">Voltar</Link>
         </div>
       </main>
     )

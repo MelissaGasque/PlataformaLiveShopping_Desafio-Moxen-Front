@@ -12,8 +12,10 @@ const Teste = async ({params}: PageProps) => {
     return(
         <main className=" body min-h-screen text-purple-500 ">
             <div>
-                <Link href={"/userPage"}>Voltar</Link>
+                <Link href={"/userPage"} className="">Voltar</Link>
             </div>
         </main>
     )
 }
+
+export default Teste

@@ -16,9 +16,8 @@ const config: Config = {
           50:"#fafafa"
         },
         purple:{
-          200:"#e9d5ff",
-          400:"#c084fc"
-        }
+          200:"#e9d5ff"
+        },
       }
     },
   },

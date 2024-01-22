@@ -1,8 +1,16 @@
+import { Header } from "@/components/header"
+import LoginForm from "@/components/loginForm"
+import { NextPage } from "next"
 
-export default function Home() {
+const Home: NextPage = () =>  {
   return (
-    <main className="body min-h-screen text-purple-500 ">
-      Moxen
+    <div className="body min-h-screen">
+    <Header/>
+    <main className="flex items-center justify-center">
+      <LoginForm />
     </main>
+    </div>
   )
 }
+
+export default Home
