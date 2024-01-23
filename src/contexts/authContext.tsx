@@ -2,6 +2,7 @@ import Toast from "@/components/toast"
 import { LoginData, UserData } from "@/schemas/user.schema"
 import { api } from "@/services/api"
 import { deleteCookie, setCookie } from "cookies-next"
+import { jwtDecode } from "jwt-decode"
 import { useRouter } from "next/navigation"
 import { ReactNode, createContext, useContext } from "react"
 
@@ -9,7 +10,7 @@ import { ReactNode, createContext, useContext } from "react"
 interface AuthUserData {
     registerUser: (userData: UserData) => void
     login: (loginData: LoginData) => void
-    deleteUser: (userId: string) => void
+    deleteUser: (token: string) => void
     logOut: ( ) => void
 }
 
@@ -47,8 +48,14 @@ export const AuthProvider = ({children}: Props) => {
         })
     }
 
-    const deleteUser = (userId: string) => {
-        api.delete(`/user/${userId}`)
+    const deleteUser = (token: string) => {
+        const decodedToken = jwtDecode(token)
+        const userId = decodedToken.sub
+        api.delete(`/user/${userId}`, {
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
         .then(() =>{
             Toast({message: "Usuário Deletado", isSucess:true})
             deleteCookie("moxen.token")

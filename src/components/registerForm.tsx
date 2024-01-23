@@ -49,10 +49,10 @@ export default function RegisterForm() {
               Cadastrar
             </button>
           </div>
-          <Link href={"/"} className="user-form-link">
-            Voltar
-          </Link>
         </form>
+        <Link href={"/"} className="user-form-link">
+          Voltar
+        </Link>
       </div>
     )
   }

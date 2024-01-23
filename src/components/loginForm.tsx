@@ -43,11 +43,10 @@ const LoginForm = () => {
             Entrar
           </button>
         </div>
-
-        <Link href={"/registerPage"} className="user-form-link">
-          Cadastre-se
-        </Link>
       </form>
+      <Link href={"/registerPage"} className="user-form-link">
+        Cadastre-se
+      </Link>
     </div>
   )
 }

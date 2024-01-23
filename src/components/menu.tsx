@@ -4,15 +4,15 @@ import { useAuth } from "@/contexts/authContext"
 import Link from "next/link"
 
 interface MenuProps {
-    idToken: string | undefined
+    token: string | undefined
 }
 
-const Menu: React.FC<MenuProps> = ({idToken}) => {  
+const Menu: React.FC<MenuProps> = ({token}) => {  
     const { deleteUser, logOut } = useAuth()
 
     function userDelete(){
-        if(idToken){
-            deleteUser(idToken)
+        if(token){
+            deleteUser(token)
         }
     }
     function leavePage(){
@@ -23,7 +23,7 @@ const Menu: React.FC<MenuProps> = ({idToken}) => {
           {/* Aqui ficará os botões de adicionar live, deletar usuário, sair da página */}
         <section>
             <div>
-                <Link href={"/addLiveProduct"} className=""> Adicionar Live </Link>
+                <Link href={"/addLive"} className=""> Adicionar Live </Link>
             </div>
             <div>
                 <button onClick={userDelete}>Excluir conta</button>
