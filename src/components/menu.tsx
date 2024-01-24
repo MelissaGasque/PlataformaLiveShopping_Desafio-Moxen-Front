@@ -20,7 +20,6 @@ const Menu: React.FC<MenuProps> = ({token}) => {
     }
     return(
         <>
-          {/* Aqui ficará os botões de adicionar live, deletar usuário, sair da página */}
         <section>
             <div>
                 <Link href={"/addLive"} className=""> Adicionar Live </Link>

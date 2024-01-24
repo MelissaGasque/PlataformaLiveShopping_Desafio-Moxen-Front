@@ -1,6 +1,6 @@
 import Toast from "@/components/toast"
 import { LiveData, LiveDataWithID } from "@/schemas/live.schema"
-import { ProductData } from "@/schemas/products.schema"
+import { ProductData, ProductDataWithId } from "@/schemas/products.schema"
 import { api } from "@/services/api"
 import { deleteCookie, setCookie } from "cookies-next"
 import { useRouter } from "next/navigation"
@@ -13,12 +13,16 @@ interface LiveProducts {
     checkLiveHasProduct: (token: string, liveId: string) => void
     desistirLive: (token: string, liveId: string) => void
     updateLive: ( token: string, liveId: string, formData: LiveData) => void
+    returnToUserPage: () => void
     deleteLive: (token: string, liveId: string) => void
+    // showProducts: (token: string, liveId: string) => void
     // updateProduct: (token: string, productId: string, formData: ProductData) => void
     lives: LiveDataWithID[];
     setLives: React.Dispatch<React.SetStateAction<LiveDataWithID[]>>
     liveId: string,
     setLiveId:React.Dispatch<React.SetStateAction<string>>
+    products: ProductDataWithId[];
+    setProducts: React.Dispatch<React.SetStateAction<ProductDataWithId[]>>
 }
 
 interface Props {
@@ -30,6 +34,7 @@ const LiveProductsContext = createContext<LiveProducts>({} as LiveProducts)
 export const LiveProductProvider = ({children}: Props) =>{
     const [lives, setLives] = useState<LiveDataWithID[]>([])
     const [liveId, setLiveId] = useState("")
+    const [products, setProducts] = useState<ProductDataWithId[]>([])
     const router = useRouter()
 
     const addLives = async(liveData: LiveData, token:string) => {
@@ -88,7 +93,7 @@ export const LiveProductProvider = ({children}: Props) =>{
                     Authorization: `Bearer ${token}`
                 }
             })
-            alert("chegou aqui")
+            alert("passou oeka api")
             setLives((liveUpdate) => {
                 return liveUpdate.map((live) => 
                     live.id === liveId ? { ...live, ...formData} : live
@@ -101,6 +106,12 @@ export const LiveProductProvider = ({children}: Props) =>{
         }
            
     }
+
+    const returnToUserPage = async() => {
+        deleteCookie("moxen.liveId")
+        router.push("/userPage")
+    }
+
 
     const deleteLive = async(token: string, liveId: string) => {
         try{
@@ -124,6 +135,10 @@ export const LiveProductProvider = ({children}: Props) =>{
        deleteLive(token, liveId)
        router.push("/userPage")
     }
+
+    // const showProducts = async(token: string, liveId: string) =>{
+    //     alert("oi")
+    // }
         // const updateProduct = async(token: string, productId: string, formData: ProductData) => {
         //     console.log(token)
         //     console.log(productId)
@@ -148,11 +163,11 @@ export const LiveProductProvider = ({children}: Props) =>{
         //     }
                
         // }
-           
+        
     
 
     return(
-        <LiveProductsContext.Provider value={{addLives, addProducts, checkLiveHasProduct, lives, setLives, deleteLive, desistirLive, updateLive, liveId, setLiveId}}>
+        <LiveProductsContext.Provider value={{addLives, addProducts, checkLiveHasProduct, lives, setLives, deleteLive, desistirLive, updateLive, returnToUserPage, liveId, setLiveId, products, setProducts}}>
             {children}
         </LiveProductsContext.Provider>
     )

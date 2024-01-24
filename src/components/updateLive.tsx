@@ -3,7 +3,6 @@
 import { liveProduct } from "@/contexts/liveProductContext"
 import { LiveData, LiveSchema } from "@/schemas/live.schema"
 import { zodResolver } from "@hookform/resolvers/zod"
-import Link from "next/link"
 import { useForm } from "react-hook-form"
 
 interface LiveProps {
@@ -16,13 +15,16 @@ const FormUpdateLive: React.FC<LiveProps> = ({token, liveId}) => {
     resolver: zodResolver(LiveSchema)
   })
 
-  const { updateLive } = liveProduct()
+  const { updateLive, returnToUserPage } = liveProduct()
 
  function submit(formData: LiveData){
     if(token && liveId){
         updateLive (token, liveId, formData)
     }
     reset()
+  }
+  const voltar =() => {
+    returnToUserPage()
   }
   return (
     <div className="user-form-container">
@@ -75,7 +77,9 @@ const FormUpdateLive: React.FC<LiveProps> = ({token, liveId}) => {
         </div>
       </form>
       <div>
-        <Link href={"/userPage"}>Voltar</Link>
+        <button onClick={voltar} className="user-form-button">
+          Voltar
+        </button>
       </div>
     </div>
   )

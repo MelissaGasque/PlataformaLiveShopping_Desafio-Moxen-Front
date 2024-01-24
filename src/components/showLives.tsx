@@ -1,11 +1,10 @@
 "use client"
 
 import { liveProduct } from "@/contexts/liveProductContext"
-import { ProductDataWithId } from "@/schemas/products.schema"
 import { api } from "@/services/api"
 import { setCookie } from "cookies-next"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect} from "react"
 
 interface LivesProps {
     token: string | undefined
@@ -13,8 +12,7 @@ interface LivesProps {
 
 
 const AllLives: React.FC<LivesProps> = ({token}) => {
-  const { lives, setLives, deleteLive, updateLive, setLiveId } = liveProduct()
-    // const [productOnLive, setproductOnLive] = useState<{ [liveId: string]: [ProductDataWithId] }>({});
+  const { lives, setLives, deleteLive } = liveProduct()
     const router = useRouter()
     useEffect(() => {
         const showAllLives = async() => {
@@ -32,31 +30,10 @@ const AllLives: React.FC<LivesProps> = ({token}) => {
         showAllLives()
     }, [])
 
-    // useEffect(() => {
-    //     const showProducts = async (liveId: string) => {
-    //       try {
-    //         const { data } = await api.get(`/${liveId}/live`, {
-    //           headers: {
-    //             Authorization: `Bearer ${token}`,
-    //           },
-    //         })
-    //         setproductOnLive((produtos) => ({
-    //           ...produtos,
-    //           [liveId]: data,
-    //         }));
-    //       } catch (error) {
-    //         console.log(error);
-    //       }
-    //     }
-    //     lives.forEach((live) =>{
-    //       showProducts(live.id)
-    //     })
-    // }, [token, lives])
-
-
- 
+     
 const products = (liveId: string) => {
-  console.log(liveId, token)
+  setCookie("moxen.liveId", liveId, {maxAge: 60 * 60 * 1})
+  router.push("/products")
 }
 const editLive = (liveId: string) => {
   setCookie("moxen.liveId", liveId, {maxAge: 60 * 60 * 1})
@@ -67,12 +44,7 @@ const deletarLive = (liveId: string) => {
     deleteLive(token, liveId)
   }
 }
-// const editProduct = () => {
-//     alert("Editar Produto")
-// }
-// const deleteProduct = () => {
-//     alert("Deletar produto")
-// }
+
 return (
 <div className="user-form-container">
     <h1 className="title text-violet-500 font-bold text-1g">Lives</h1>
@@ -87,19 +59,6 @@ return (
             </div>
           </div>
           <p>Descrição: {live.descricao}</p>
-          {/* <h3>Produtos da live</h3> */}
-          {/* <div>
-            {productOnLive[live.id]?.map((produto) => (
-              <div key={produto.id}>
-                <p>{produto.nome}</p>
-                <p>{produto.quantidade}</p>
-                <div>
-                  <button onClick={editProduct}>Editar dados do Produto</button>
-                  <button onClick={deleteProduct}>Deletar Produto</button>
-                </div>
-              </div>
-            ))}
-          </div> */}
         </div>
       ))}
     </div>
