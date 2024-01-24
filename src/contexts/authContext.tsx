@@ -48,10 +48,11 @@ export const AuthProvider = ({children}: Props) => {
         })
     }
 
-    const deleteUser = (token: string) => {
+    const deleteUser = async(token: string) => {
         const decodedToken = jwtDecode(token)
         const userId = decodedToken.sub
-        api.delete(`/user/${userId}`, {
+
+        await api.delete(`/user/${userId}`, {
             headers:{
                 Authorization: `Bearer ${token}`
             }

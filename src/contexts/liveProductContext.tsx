@@ -11,6 +11,7 @@ interface LiveProducts {
     addLives: (liveDada: LiveData, token: string) => void
     addProducts: (productData: ProductData, token: string, liveId: string) => void
     checkLiveHasProduct: (token: string, liveId: string) => void
+    desistirLive: (token: string, liveId: string) => void
     updateLive: ( token: string, liveId: string, formData: LiveData) => void
     deleteLive: (token: string, liveId: string) => void
     // updateProduct: (token: string, productId: string, formData: ProductData) => void
@@ -75,7 +76,7 @@ export const LiveProductProvider = ({children}: Props) =>{
             console.error('Erro na requisição:', error)
         })        
     }
-
+    
     const updateLive = async(token: string, liveId: string, formData: LiveData) => {
         console.log(token)
         console.log(liveId)
@@ -103,24 +104,26 @@ export const LiveProductProvider = ({children}: Props) =>{
 
     const deleteLive = async(token: string, liveId: string) => {
         try{
-            alert("entra aqui?")
-            console.log(liveId)
             await api.delete(`/live/${liveId}`, {
                 headers:{
                     Authorization: `Bearer ${token}`
                 }
             })
-            // console.log(teste)
-            // alert("passa pela requisição?")
-            // setLives((liveDelete) => {
-            //     return liveDelete.filter((live) => live.id !== liveId )
-            // })
+            setLives((liveDelete) => {
+                return liveDelete.filter((live) => live.id !== liveId )
+            })
+            deleteCookie("moxen.liveId")
             Toast({message: "Live Deletada!", isSucess:true}) 
         }
         catch(erro){
             alert(erro)
             Toast({message: "Deleção não realizada"})
         }
+    }
+    const desistirLive = async(token: string, liveId: string) => {
+       deleteLive(token, liveId)
+       router.push("/userPage")
+    }
         // const updateProduct = async(token: string, productId: string, formData: ProductData) => {
         //     console.log(token)
         //     console.log(productId)
@@ -146,10 +149,10 @@ export const LiveProductProvider = ({children}: Props) =>{
                
         // }
            
-    }
+    
 
     return(
-        <LiveProductsContext.Provider value={{addLives, addProducts, checkLiveHasProduct, lives, setLives, deleteLive, updateLive, liveId, setLiveId}}>
+        <LiveProductsContext.Provider value={{addLives, addProducts, checkLiveHasProduct, lives, setLives, deleteLive, desistirLive, updateLive, liveId, setLiveId}}>
             {children}
         </LiveProductsContext.Provider>
     )

@@ -18,7 +18,7 @@ const FormProducts:  React.FC<ProductsProps> = ({token, liveId}) => {
     resolver: zodResolver(ProductSchema)
   })
 
-  const { addProducts, checkLiveHasProduct } = liveProduct()
+  const { addProducts, checkLiveHasProduct, desistirLive } = liveProduct()
 
   const submit = (formData: ProductData) => {
       if(token && liveId){
@@ -33,8 +33,9 @@ const FormProducts:  React.FC<ProductsProps> = ({token, liveId}) => {
   }
 
   const desistir = () =>{
-    deleteCookie("moxen.liveId")
-    redirect("/userPage")
+    if(token && liveId){
+      desistirLive(token, liveId)
+    }
   }
   return (
     <div className="user-form-container">
