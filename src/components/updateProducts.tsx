@@ -1,44 +1,37 @@
 "use client"
 
-import { liveProduct } from "@/contexts/liveProductContext"
+
 import { ProductData, ProductSchema } from "@/schemas/products.schema"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { deleteCookie } from "cookies-next"
-import { redirect } from "next/navigation"
+// import { deleteCookie } from "cookies-next"
+// import { redirect } from "next/navigation"
 import { useForm } from "react-hook-form"
-import Toast from "./toast"
+// import Toast from "./toast"
+import Link from "next/link"
+import { liveProduct } from "@/contexts/liveProductContext"
 
 interface ProductsProps {
   token: string | undefined
-  liveId: string | undefined
+  productId: string | undefined
 }
 
-const FormProducts:  React.FC<ProductsProps> = ({token, liveId}) => {
+const FormUpdateProducts:  React.FC<ProductsProps> = ({token, productId}) => {
   const { register, handleSubmit, reset } = useForm<ProductData>({
     resolver: zodResolver(ProductSchema)
   })
 
-  const { addProducts, checkLiveHasProduct } = liveProduct()
+  // const {updateProduct } = liveProduct()
 
   const submit = (formData: ProductData) => {
-      if(token && liveId){
-      addProducts(formData, token, liveId)
-     }
+    //   if(token && productId){
+    //     updateProduct(token, productId, formData,)
+    //  }
      reset()
   }
-  const criouLiveProduc = () =>{
-    if(token && liveId){
-      checkLiveHasProduct( token, liveId)
-     }
-  }
 
-  const desistir = () =>{
-    deleteCookie("moxen.liveId")
-    redirect("/userPage")
-  }
   return (
     <div className="user-form-container">
-      <h1 className="title text-violet-500 font-bold text-1g">Adicionar Produto</h1>
+      <h1 className="title text-violet-500 font-bold text-1g">Atualizar Produto</h1>
 
       <form className="space-y-6 w-4/5" onSubmit={handleSubmit(submit)}>
         <div className="">
@@ -67,22 +60,15 @@ const FormProducts:  React.FC<ProductsProps> = ({token, liveId}) => {
         </div>
         <div>
           <button type="submit" className="user-form-button">
-            Adicionar
+            Atualizar
           </button>
         </div>
       </form>
       <div>
-          <button onClick={criouLiveProduc} className="user-form-button">
-            Finalizar adição de produtos!
-          </button>
-        </div>
-        <div>
-          <button onClick={desistir} className="user-form-button">
-            Desistir da live
-          </button>
-        </div>
+        <Link href={"/userPage"}>Voltar</Link>
+      </div>
     </div>
   )
 }
 
-export default FormProducts
+export default FormUpdateProducts

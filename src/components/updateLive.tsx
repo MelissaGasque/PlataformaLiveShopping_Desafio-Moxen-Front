@@ -3,28 +3,30 @@
 import { liveProduct } from "@/contexts/liveProductContext"
 import { LiveData, LiveSchema } from "@/schemas/live.schema"
 import { zodResolver } from "@hookform/resolvers/zod"
+import Link from "next/link"
 import { useForm } from "react-hook-form"
 
 interface LiveProps {
   token: string | undefined
+  liveId: string | undefined
 }
 
-const FormLive: React.FC<LiveProps> = ({token}) => {
+const FormUpdateLive: React.FC<LiveProps> = ({token, liveId}) => {
   const { register, handleSubmit, reset } = useForm<LiveData>({
     resolver: zodResolver(LiveSchema)
   })
 
-  const { addLives } = liveProduct()
+  const { updateLive } = liveProduct()
 
  function submit(formData: LiveData){
-    if(token){
-      addLives(formData, token)
+    if(token && liveId){
+        updateLive (token, liveId, formData)
     }
     reset()
   }
   return (
     <div className="user-form-container">
-      <h1 className="title text-violet-500 font-bold text-1g">Adicionar Live</h1>
+      <h1 className="title text-violet-500 font-bold text-1g">Atualizar Live</h1>
 
       <form className="space-y-6 w-4/5" onSubmit={handleSubmit(submit)}>
         <div className="">
@@ -68,12 +70,15 @@ const FormLive: React.FC<LiveProps> = ({token}) => {
         </div>
         <div>
           <button type="submit" className="user-form-button">
-            Criar
+            Atualizar
           </button>
         </div>
       </form>
+      <div>
+        <Link href={"/userPage"}>Voltar</Link>
+      </div>
     </div>
   )
 }
 
-export default FormLive
+export default FormUpdateLive

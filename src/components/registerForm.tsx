@@ -6,7 +6,7 @@ import Link from "next/link"
 import { useForm } from "react-hook-form"
 
 export default function RegisterForm() {
-    const { register, handleSubmit } = useForm<UserData>({
+    const { register, handleSubmit, reset } = useForm<UserData>({
       resolver: zodResolver(UserSchema)
     })
 
@@ -14,6 +14,7 @@ export default function RegisterForm() {
    
     function submit(formData: UserData){
       registerUser(formData)
+      reset()
     }
 
     return (

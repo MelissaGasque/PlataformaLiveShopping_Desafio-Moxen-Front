@@ -1,5 +1,6 @@
 import { Header } from "@/components/header"
 import Menu from "@/components/menu"
+import AllLives from "@/components/showLives"
 import { getCookie } from "cookies-next"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
@@ -9,7 +10,6 @@ const verifyToken = () => {
   if (!token) {
       redirect("/")
   }
-
   return token
 }
 
@@ -26,8 +26,8 @@ export default function UserPage() {
         <section>
           <div>
           <h1>Lives</h1>
+          <AllLives token={token}/>
           </div>
-          <div>Aqui Será adicionado a lista de lives</div>
         </section>
       </main>
             

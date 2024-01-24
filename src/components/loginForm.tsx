@@ -7,7 +7,7 @@ import Link from "next/link"
 import { useForm } from "react-hook-form"
 
 const LoginForm = () => {
-  const { register, handleSubmit } = useForm<LoginData>({
+  const { register, handleSubmit, reset } = useForm<LoginData>({
     resolver: zodResolver(LoginSchema)
   })
 
@@ -15,6 +15,7 @@ const LoginForm = () => {
 
   const submit = (formData: LoginData) => {
     login(formData)
+    reset()
   }
   return (
     <div className="user-form-container">
