@@ -2,6 +2,8 @@
 
 import { liveProduct } from "@/contexts/liveProductContext"
 import { api } from "@/services/api"
+import { setCookie } from "cookies-next"
+import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 
 interface ProductsProps {
@@ -10,12 +12,11 @@ interface ProductsProps {
 }
 
 const AllProductsfromLive: React.FC<ProductsProps> = ({ token, liveId }) => {
-  const { products, setProducts } = liveProduct()
+  const { products, setProducts, deleteProduct, returnToUserPage } = liveProduct()
+  const router = useRouter()
 
   useEffect(() => {
     const showProducts = async () => {
-      console.log(liveId)
-      console.log(token)
       try {
         const { data } = await api.get(`/product/${liveId}/live`, {
           headers: {
@@ -28,13 +29,20 @@ const AllProductsfromLive: React.FC<ProductsProps> = ({ token, liveId }) => {
       }
     }
     showProducts()
-  }, [])
+  }, [liveId])
 
   const editProduct = (productId: string) => {
-      alert(productId)
+    setCookie("moxen.productId", productId, {maxAge: 60 * 60 * 1})
+    router.push("/updateProduct")
+
   }
-  const deleteProduct = (productId: string) => {
-      alert(productId)
+  const deleteProducts = (productId: string) => {
+    if(token && liveId){
+      deleteProduct(token, productId, liveId)
+    }
+  }
+  const retornar = () => {
+    returnToUserPage()
   }
   return (
     <div className="user-form-container">
@@ -45,12 +53,15 @@ const AllProductsfromLive: React.FC<ProductsProps> = ({ token, liveId }) => {
             <p>{produto.nome}</p>
             <p>{produto.quantidade}</p>
             <div>
-              <button onClick={() => editProduct(produto.id)}>Editar dados do Produto</button>{' '}
-              <button onClick={() => deleteProduct(produto.id)}>Editar dados da Live</button>
+              <button onClick={() => editProduct(produto.id)}>Editar Produto</button>{' '}
+              <button onClick={() => deleteProducts(produto.id)}>Deletar produto</button>
             </div>
           </div>
         ))}
       </div> 
+      <div>
+        <button onClick={retornar}>Voltar</button>
+      </div>
     </div>
   )
 }

@@ -15,8 +15,8 @@ interface LiveProducts {
     updateLive: ( token: string, liveId: string, formData: LiveData) => void
     returnToUserPage: () => void
     deleteLive: (token: string, liveId: string) => void
-    // showProducts: (token: string, liveId: string) => void
-    // updateProduct: (token: string, productId: string, formData: ProductData) => void
+    updateProduct: (token: string, productId: string, formData: ProductData) => void
+    deleteProduct: (token: string, productId: string, liveId: string) => void
     lives: LiveDataWithID[];
     setLives: React.Dispatch<React.SetStateAction<LiveDataWithID[]>>
     liveId: string,
@@ -109,6 +109,7 @@ export const LiveProductProvider = ({children}: Props) =>{
 
     const returnToUserPage = async() => {
         deleteCookie("moxen.liveId")
+        deleteCookie("moxen.productId")
         router.push("/userPage")
     }
 
@@ -127,7 +128,6 @@ export const LiveProductProvider = ({children}: Props) =>{
             Toast({message: "Live Deletada!", isSucess:true}) 
         }
         catch(erro){
-            alert(erro)
             Toast({message: "Deleção não realizada"})
         }
     }
@@ -136,38 +136,55 @@ export const LiveProductProvider = ({children}: Props) =>{
        router.push("/userPage")
     }
 
-    // const showProducts = async(token: string, liveId: string) =>{
-    //     alert("oi")
-    // }
-        // const updateProduct = async(token: string, productId: string, formData: ProductData) => {
-        //     console.log(token)
-        //     console.log(productId)
-        //     console.log(formData)
-        //     try{
-        //         alert("entrou aqui")
-        //         await api.patch(`/product/${productId}`, {
-        //             headers:{
-        //                 Authorization: `Bearer ${token}`
-        //             }
-        //         })
-        //         // alert("chegou aqui")
-        //         // setLives((liveUpdate) => {
-        //         //     return liveUpdate.map((live) => 
-        //         //         live.id === liveId ? { ...live, ...formData} : live
-        //         //     )
-        //         // })
-        //         Toast({message: "Live editada!", isSucess:true})
-        //     }
-        //     catch(error){
-        //         Toast({message: "Update não realizado"})
-        //     }
-               
-        // }
+
+    const updateProduct = async(token: string, productId: string, formData: ProductData) => {
+        try{
+            await api.patch(`/product/${productId}`, {
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            alert("chegou aqui")
+            router.push("/product")
+            Toast({message: "Live editada!", isSucess:true})
+        }
+        catch(error){
+            Toast({message: "Update não realizado"})
+        }
+            
+    }
         
-    
+    const deleteProduct = async(token: string, productId: string, liveId: string) => {
+        // console.log(token)
+        // console.log(productId)
+        // console.log(liveId)
+        try{
+            await api.delete(`/product/${productId}`, {
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            alert("entra")
+            Toast({message: "Produto Deletado!", isSucess:true})
+            await api.get(`/product/${liveId}`, {
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(response => {
+                if (!response.data) {
+                    deleteLive(token, liveId)
+                    router.push("/userPage")
+                } 
+            })
+        }
+        catch(error){
+            Toast({message: "Update não realizado"})
+        }
+            
+    }
 
     return(
-        <LiveProductsContext.Provider value={{addLives, addProducts, checkLiveHasProduct, lives, setLives, deleteLive, desistirLive, updateLive, returnToUserPage, liveId, setLiveId, products, setProducts}}>
+        <LiveProductsContext.Provider value={{addLives, addProducts, checkLiveHasProduct, lives, setLives, deleteLive, desistirLive, updateLive, returnToUserPage, liveId, setLiveId, products, setProducts, updateProduct, deleteProduct }}>
             {children}
         </LiveProductsContext.Provider>
     )

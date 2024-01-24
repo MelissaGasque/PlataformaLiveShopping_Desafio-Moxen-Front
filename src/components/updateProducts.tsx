@@ -20,13 +20,16 @@ const FormUpdateProducts:  React.FC<ProductsProps> = ({token, productId}) => {
     resolver: zodResolver(ProductSchema)
   })
 
-  // const {updateProduct } = liveProduct()
+  const {updateProduct, returnToUserPage } = liveProduct()
 
   const submit = (formData: ProductData) => {
-    //   if(token && productId){
-    //     updateProduct(token, productId, formData,)
-    //  }
+      if(token && productId){
+        updateProduct(token, productId, formData,)
+     }
      reset()
+  }
+  const retornar = () =>{
+    returnToUserPage() 
   }
 
   return (
@@ -65,7 +68,7 @@ const FormUpdateProducts:  React.FC<ProductsProps> = ({token, productId}) => {
         </div>
       </form>
       <div>
-        <Link href={"/userPage"}>Voltar</Link>
+        <button onClick={retornar}>Voltar</button>
       </div>
     </div>
   )
