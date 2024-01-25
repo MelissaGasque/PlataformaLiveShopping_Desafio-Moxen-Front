@@ -46,19 +46,19 @@ const deletarLive = (liveId: string) => {
 }
 
 return (
-<div className="user-form-container">
+<div className="user-form-container border-4 border-solid border-purple-400 p-4 mx-3">
     <h1 className="title text-violet-500 font-bold text-1g">Lives</h1>
     {lives.map((live) => (
-        <div key={live.id}>
-          <div>
+        <div className="flex justify-between border-2 border-solid border-purple-300 m-2" key={live.id}>
+          <div className="mx-2 p-3 ">
             <h2>Nome da Live: {live.titulo}</h2>
-            <div>
+            <p>Descrição: {live.descricao}</p>
+          </div>
+          <div className="flex flex-col p-3">
               <button onClick={() => products(live.id)}>Produtos da Live</button>{' '}
               <button onClick={() => editLive(live.id)}>Editar dados da Live</button>
               <button onClick={() => deletarLive(live.id)}>Deletar Lives</button>
             </div>
-          </div>
-          <p>Descrição: {live.descricao}</p>
         </div>
       ))}
     </div>

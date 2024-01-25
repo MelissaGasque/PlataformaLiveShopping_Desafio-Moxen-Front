@@ -17,15 +17,14 @@ export default function UserPage() {
   const token = verifyToken()
 
   return (
-    <div className="body min-h-screen text-purple-500 ">
+    <div className="body min-h-screen text-purple-500 flex flex-col items-center ">
       <Header/>
-      <main>
-        <section>
+      <main className="flex flex-row justify-between p-4 w-1/1">
+        <section >
           <Menu token={token} />
         </section>
         <section>
           <div>
-          <h1>Lives</h1>
           <AllLives token={token}/>
           </div>
         </section>

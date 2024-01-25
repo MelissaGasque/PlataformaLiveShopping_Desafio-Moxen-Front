@@ -1,4 +1,5 @@
 import FormProducts from "@/components/addProducts"
+import { Header } from "@/components/header"
 import { getCookie } from "cookies-next"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
@@ -26,9 +27,15 @@ export default function AddLive() {
   const liveId = verifyLiveId()
 
     return (
-      <main className=" body min-h-screen text-purple-500 ">
-        <h1>Adicionar Produtos</h1>
-          <FormProducts token={token} liveId={liveId}/>
-      </main>
+      <div className="body min-h-screen text-purple-500 flex flex-col items-center justify-center">
+        <div>
+          <Header/>
+        </div>
+        <main>
+            <h1>Adicionar Produtos</h1>
+            <FormProducts token={token} liveId={liveId}/>
+        </main>
+      </div>
+
     )
   }

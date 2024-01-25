@@ -49,10 +49,12 @@ const AllProductsfromLive: React.FC<ProductsProps> = ({ token, liveId }) => {
       <h1 className="title text-violet-500 font-bold text-1g">Produtos</h1>
       <div>
         {products.map((produto) => (
-          <div key={produto.id}>
-            <p>{produto.nome}</p>
-            <p>{produto.quantidade}</p>
-            <div>
+          <div className="flex flex-row border-2 border-solid border-purple-300 m-2" key={produto.id}>
+            <div className="mx-2 p-2 ">
+              <p>Nome do produto: {produto.nome}</p>
+              <p>Quantidade: {produto.quantidade}</p>
+            </div>
+            <div className="flex flex-col p-2">
               <button onClick={() => editProduct(produto.id)}>Editar Produto</button>{' '}
               <button onClick={() => deleteProducts(produto.id)}>Deletar produto</button>
             </div>
